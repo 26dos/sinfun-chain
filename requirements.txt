@@ -1,0 +1,8 @@
+requests>=2.31
+pandas>=2.0
+pyarrow>=14
+solana>=0.32
+solders>=0.20
+web3>=6.11
+click>=8.1
+pydantic>=2.5

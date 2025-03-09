@@ -31,3 +31,20 @@ class HeliusClient:
         if before:
             params["before"] = before
         return self._get(f"/addresses/{address}/transactions", params)
+
+
+
+    def top_holders(self, mint: str, limit: int = 25):
+        """Returns list of {address, amount, percent_of_supply} sorted desc."""
+        data = self._get(f"/token-holders", {"mint": mint, "limit": limit})
+        total = sum(h.get("amount", 0) for h in data)
+        if total == 0:
+            return []
+        return [
+            {
+                "address": h["address"],
+                "amount": h["amount"],
+                "percent_of_supply": h["amount"] / total * 100,
+            }
+            for h in data
+        ]

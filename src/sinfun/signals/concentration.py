@@ -1,12 +1,4 @@
-"""Top-N holder concentration as a rug-risk signal.
-
-A token where the top 10 holders own > X% of supply is, in expectation,
-fragile against a coordinated dump. We track:
-
-  - top1_pct: the single largest holder's share
-  - top10_pct: top 10
-  - gini: gini coefficient over the holder distribution
-"""
+"""Top-N holder concentration as a rug-risk signal."""
 from typing import Iterable
 
 
@@ -15,11 +7,10 @@ def gini_coefficient(amounts: Iterable[float]) -> float:
     if not sorted_amounts:
         return 0.0
     n = len(sorted_amounts)
-    cumulative = 0.0
-    weighted = 0.0
-    for i, a in enumerate(sorted_amounts, 1):
-        cumulative += a
-        weighted += i * a
+    cumulative = sum(sorted_amounts)
+    if cumulative == 0:
+        return 0.0
+    weighted = sum(i * a for i, a in enumerate(sorted_amounts, 1))
     return (2 * weighted) / (n * cumulative) - (n + 1) / n
 
 

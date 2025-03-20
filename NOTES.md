@@ -20,3 +20,12 @@ what i want from this:
 what i'm not trying to do:
   - this isn't a trading bot. zero financial advice.
   - it's a *research* toolkit. accuracy > speed. labels > predictions.
+
+
+
+## naming
+
+"sinfun" because the protocols this thing tracks are speculative as hell —
+memecoins, casino DeFi, prediction markets on whether the casino will rug.
+the academic/serious framing is "high-volatility on-chain instruments" but
+nobody calls it that.

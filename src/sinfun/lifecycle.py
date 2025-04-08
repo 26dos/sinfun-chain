@@ -38,3 +38,30 @@ def classify_phase(token_state: dict) -> Phase:
     if vol_24h < mcap * 0.005:
         return Phase.DECLINING
     return Phase.ESTABLISHED
+
+
+
+class LifecycleTracker:
+    """Replay a token's history into phase transitions."""
+
+    def __init__(self):
+        self._history: list[tuple[int, Phase]] = []
+
+    def update(self, timestamp: int, state: dict) -> Phase:
+        phase = classify_phase(state)
+        if not self._history or self._history[-1][1] != phase:
+            self._history.append((timestamp, phase))
+        return phase
+
+    @property
+    def transitions(self):
+        return list(self._history)
+
+    def time_in_phase(self, phase: Phase) -> int:
+        total = 0
+        for i, (ts, p) in enumerate(self._history):
+            if p != phase:
+                continue
+            end = self._history[i + 1][0] if i + 1 < len(self._history) else ts
+            total += end - ts
+        return total

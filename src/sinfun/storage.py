@@ -20,3 +20,12 @@ def append(root: str | Path, chain: str, records: list[dict]) -> Path:
             df = df.drop_duplicates(subset=["mint"], keep="last")
     df.to_parquet(out, index=False)
     return out
+
+
+
+def read_all(root: str | Path, chain: str = None) -> pd.DataFrame:
+    pattern = f"chain={chain}/**/records.parquet" if chain else "chain=*/**/records.parquet"
+    paths = sorted(Path(root).glob(pattern))
+    if not paths:
+        return pd.DataFrame()
+    return pd.concat([pd.read_parquet(p) for p in paths], ignore_index=True)

@@ -44,3 +44,7 @@ next year:
   - automated pull of pump.fun graduates daily
   - notebook tour of "interesting deaths" — case studies of tokens that
     rugged spectacularly
+
+## solana
+
+helius free tier is enough for ~100 tokens/day. for more, paid is fine.

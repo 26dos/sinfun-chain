@@ -29,3 +29,17 @@ def render_token(rec: dict) -> None:
         if k in rec:
             t.add_row(k, _fmt(rec[k]))
     console.print(t)
+
+
+
+def render_token_with_score(rec: dict, model_path: str = None) -> None:
+    render_token(rec)
+    if model_path:
+        try:
+            from .ml import predict_rug_prob
+            p = predict_rug_prob(model_path, rec)
+            console = Console()
+            color = "red" if p > 0.5 else "yellow" if p > 0.2 else "green"
+            console.print(f"\n[bold {color}]rug probability: {p:.1%}[/]")
+        except Exception as e:
+            print(f"  (model load failed: {e})")

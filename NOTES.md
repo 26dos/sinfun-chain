@@ -48,3 +48,7 @@ next year:
 ## solana
 
 helius free tier is enough for ~100 tokens/day. for more, paid is fine.
+
+## bundled buys
+
+false positive rate is high. need a manual review of detected clusters.

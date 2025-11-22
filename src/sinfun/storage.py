@@ -5,25 +5,25 @@ from pathlib import Path
 import pandas as pd
 
 
-def append(root: str | Path, chain: str, records: list[dict]) -> Path:
+def append(root, chain, records):
     if not records:
         return None
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     out = Path(root) / f"chain={chain}" / f"day={day}" / "records.parquet"
     out.parent.mkdir(parents=True, exist_ok=True)
     df = pd.DataFrame(records)
+    if df.empty:
+        return None
     if out.exists():
         existing = pd.read_parquet(out)
         df = pd.concat([existing, df], ignore_index=True)
-        # dedupe by token mint, last write wins
         if "mint" in df.columns:
             df = df.drop_duplicates(subset=["mint"], keep="last")
     df.to_parquet(out, index=False)
     return out
 
 
-
-def read_all(root: str | Path, chain: str = None) -> pd.DataFrame:
+def read_all(root, chain=None):
     pattern = f"chain={chain}/**/records.parquet" if chain else "chain=*/**/records.parquet"
     paths = sorted(Path(root).glob(pattern))
     if not paths:

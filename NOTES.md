@@ -52,3 +52,7 @@ helius free tier is enough for ~100 tokens/day. for more, paid is fine.
 ## bundled buys
 
 false positive rate is high. need a manual review of detected clusters.
+
+## graph features
+
+holders form a graph by transfer history. could be useful for clustering. later.

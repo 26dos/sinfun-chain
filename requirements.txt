@@ -1,8 +1,11 @@
 requests>=2.31
-pandas>=2.0
+pandas>=2.0,<3.0
 pyarrow>=14
+numpy>=1.24,<2.0
 solana>=0.32
 solders>=0.20
 web3>=6.11
 click>=8.1
 pydantic>=2.5
+joblib>=1.3
+scikit-learn>=1.3

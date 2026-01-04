@@ -29,3 +29,18 @@ what i'm not trying to do:
 memecoins, casino DeFi, prediction markets on whether the casino will rug.
 the academic/serious framing is "high-volatility on-chain instruments" but
 nobody calls it that.
+
+
+
+## end of 2025
+
+state of the world:
+  - 14k Solana mints in the dataset, ~2k Base, ~500 Hyperliquid coins
+  - heuristics are stable; classifier on top is somewhere around 0.84 ROC-AUC
+    on a hand-labeled rug subset (n=200)
+
+next year:
+  - cross-chain wallet linkage — probably the biggest unsolved piece
+  - automated pull of pump.fun graduates daily
+  - notebook tour of "interesting deaths" — case studies of tokens that
+    rugged spectacularly

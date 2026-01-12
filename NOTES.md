@@ -56,3 +56,7 @@ false positive rate is high. need a manual review of detected clusters.
 ## graph features
 
 holders form a graph by transfer history. could be useful for clustering. later.
+
+## 2026 plans
+
+cross-chain wallet linkage; pump.fun graduate auto-pull; small classifier writeup.

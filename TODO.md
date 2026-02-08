@@ -4,3 +4,4 @@
 - [ ] use funding history for forced-liq cascade detection
 - [ ] track top1_pct over time, not just snapshot
 - [ ] simple dash for browsing dataset
+- [ ] daily backfill of pump.fun graduates (cron-style)

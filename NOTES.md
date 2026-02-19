@@ -60,3 +60,7 @@ holders form a graph by transfer history. could be useful for clustering. later.
 ## 2026 plans
 
 cross-chain wallet linkage; pump.fun graduate auto-pull; small classifier writeup.
+
+## holder churn
+
+solana memecoin holder churn is wild — 30% of holders change between hour 1 and hour 24 on average.

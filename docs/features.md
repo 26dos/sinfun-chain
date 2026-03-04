@@ -19,3 +19,11 @@ If we couldn't fetch the holder list, `top1_pct` / `top10_pct` / `gini` are
 all 0. The classifier should treat 0s as missing if you're using these
 features for a real prediction (the default sklearn classifier doesn't —
 keep that in mind).
+
+
+
+## gini implementation note
+
+The Gini implementation in `concentration.py` operates on a count vector
+(holder amounts). For very small holder lists (n < 10), the Gini estimate is
+noisy; consider using a different summary statistic in that regime.

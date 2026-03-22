@@ -1,4 +1,5 @@
 """sinfun — command line entrypoint."""
+import json
 import click
 
 
@@ -11,7 +12,8 @@ def cli():
 @cli.command("inspect")
 @click.argument("mint")
 @click.option("--chain", default="solana", type=click.Choice(["solana", "base", "hyperliquid"]))
-def inspect_cmd(mint, chain):
+@click.option("--json", "as_json", is_flag=True, help="emit JSON instead of pretty output")
+def inspect_cmd(mint, chain, as_json):
     """Quick rug-feature snapshot for a single token."""
     from .signals.rug_features import featurize
 
@@ -25,9 +27,14 @@ def inspect_cmd(mint, chain):
         return
     else:
         from .chains.hyperliquid import get_open_interest
-        click.echo(get_open_interest(mint))
+        out = get_open_interest(mint)
+        click.echo(json.dumps(out) if as_json else out)
         return
     rec.update(featurize(rec))
+    if as_json:
+        rec.pop("holders", None)  # too verbose for json line use
+        click.echo(json.dumps(rec))
+        return
     for k, v in rec.items():
         if k == "holders":
             continue

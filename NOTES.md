@@ -64,3 +64,7 @@ cross-chain wallet linkage; pump.fun graduate auto-pull; small classifier writeu
 ## holder churn
 
 solana memecoin holder churn is wild — 30% of holders change between hour 1 and hour 24 on average.
+
+## rate limits
+
+helius enterprise gives ~30 rps; way more than needed at current scale.

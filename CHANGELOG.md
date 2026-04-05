@@ -6,3 +6,4 @@
 - 0.1.3 (2025-12-08): rug_features handles None gracefully
 - 0.2.0 (2026-01-25): version bump
 - 0.2.1 (2026-03-04): hyperliquid resilience
+- 0.3.0 (2026-04-05): version bump, doc polish

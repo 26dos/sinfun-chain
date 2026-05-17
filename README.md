@@ -1,43 +1,55 @@
 # sinfun-chain
 
-## The Problem
+Multi-source feature pipeline for token-level risk signals and offline ML
+analysis.
 
-Most DeFi research focuses on the well-behaved end of the spectrum — money
-markets, blue-chip DEXes, lending protocols with formal verification audits.
-Meanwhile, the *vast majority* of trading volume on chains like Solana and
-Base is happening in memecoins, leveraged perps, and prediction markets —
-the speculative end of DeFi.
+This project ingests fragmented market and holder data, computes risk-oriented
+features, and stores append-only parquet datasets partitioned by source and
+day. The current domain is speculative token markets, but the core pattern is
+general: turn noisy, fast-changing public data into a clean feature store that
+can support research, labeling, and model training.
 
-This is the side where rugs happen, where wash trading is endemic, where
-exit-liquidity events wipe out retail in seconds. It's also the side where
-data is hardest to study, because tokens turn over in days, infrastructure
-is fragmented across chains, and very little gets labeled.
+## What It Builds
 
-This repo is a research toolkit for studying that side.
+- **Source adapters** for Solana, Base/EVM-style RPCs, and Hyperliquid-style
+  market data.
+- **Feature modules** for holder concentration, developer-wallet behavior,
+  bundled-buy clusters, exit-liquidity events, and lifecycle metadata.
+- **Append-only parquet storage** that keeps historical snapshots queryable.
+- **CLI workflows** for inspecting one asset or backfilling many assets.
+- **Notebook-ready datasets** for offline analysis and classifier experiments.
 
-## Our Approach
+## Pipeline
 
-`sinfun-chain` pulls token-level data from multiple chains, computes
-rug-risk features (top-N holder concentration, dev-wallet behavior,
-bundled-buy clusters, mint authority status), and stores everything as
-append-only parquet partitioned by chain and day.
+```
+source APIs / RPCs
+      |
+      v
+chain-specific adapters
+      |
+      v
+normalization + validation
+      |
+      v
+risk feature modules
+      |
+      v
+partitioned parquet store
+      |
+      v
+research notebooks / ML classifiers
+```
 
-The point isn't to predict the next rug in real time — that's a different
-problem with much faster latency requirements. The point is to build a
-clean, queryable dataset that researchers can use for offline analysis:
-which signals were predictive of rugs in the past? How does dev-wallet
-behavior on Solana compare to Base? How do exit-liquidity events cluster
-in time?
-
-## Show Me
+## Example
 
 ```python
 from sinfun.signals.rug_features import featurize
 from sinfun.chains.solana import HeliusClient
 
 client = HeliusClient(api_key="...")
-holders = client.top_holders("WHATEVER_MINT_YOU_CARE_ABOUT")
-print(featurize({"mint": "...", "holders": holders, "age_days": 3}))
+holders = client.top_holders("MINT_ADDRESS")
+
+print(featurize({"mint": "MINT_ADDRESS", "holders": holders, "age_days": 3}))
 # {
 #   "top1_pct": 47.2,
 #   "top10_pct": 81.4,
@@ -62,24 +74,38 @@ pip install -e ".[solana]"
 export HELIUS_API_KEY=...
 export BASE_RPC_URL=...
 
-# pull a small starter set of mints (e.g. recent pump.fun graduates) into mints.txt
 sinfun backfill --mints-file mints.txt --chain solana --out data/
 ```
 
-## How It Works
+## Repository Layout
 
 ```
-┌─────────────────┐     ┌────────────────┐     ┌───────────────┐
-│  chain backends │────▶│ rug features   │────▶│  parquet store │
-│  (sol, base, hl)│     │  (per-token)   │     │ (chain=, day=) │
-└─────────────────┘     └────────────────┘     └───────────────┘
-                                                        │
-                                                        ▼
-                                                 ┌──────────────┐
-                                                 │ research /    │
-                                                 │ classifier   │
-                                                 └──────────────┘
+src/sinfun/
+  chains/       source adapters and chain-specific clients
+  signals/      feature modules
+  storage.py    parquet persistence
+  lifecycle.py  asset lifecycle helpers
+  ml.py         modeling utilities
+  report.py     summaries for analysis
+  cli.py        command-line workflows
+
+docs/           design notes, features, findings
+notebooks/      exploratory analysis
+tests/          storage, feature, lifecycle, and ML tests
 ```
+
+## Why This Framing Matters
+
+Speculative markets are useful stress tests for data engineering: assets appear
+and disappear quickly, labels are sparse, APIs are inconsistent, and the most
+interesting signals are often behavioral rather than neatly tabular. This repo
+focuses on the pipeline required before modeling is possible:
+
+- normalize heterogeneous sources
+- compute repeatable features
+- preserve historical snapshots
+- support offline labeling and analysis
+- keep domain assumptions isolated in small modules
 
 ## License
 

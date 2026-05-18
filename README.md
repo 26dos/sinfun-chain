@@ -1,4 +1,4 @@
-# sinfun-chain
+# token-risk-feature-store
 
 Multi-source feature pipeline for token-level risk signals and offline ML
 analysis.

@@ -1,7 +1,7 @@
 [project]
-name = "sinfun-chain"
+name = "token-risk-feature-store"
 version = "0.1.0"
-description = "Research toolkit for speculative DeFi (memecoins, perps, prediction markets)."
+description = "Multi-source feature pipeline for token risk signals and offline ML analysis."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

@@ -9,6 +9,16 @@ day. The current domain is speculative token markets, but the core pattern is
 general: turn noisy, fast-changing public data into a clean feature store that
 can support research, labeling, and model training.
 
+## Demo Snapshot
+
+![Token risk feature store demo](docs/assets/screenshots/feature-store-demo.png)
+
+The demo shows a token snapshot moving through source adapters, feature modules,
+append-only parquet storage, and notebook/modeling workflows.
+
+See [docs/demo-walkthrough.md](docs/demo-walkthrough.md) for an entity graph,
+flow chart, and sample feature row.
+
 ## What It Builds
 
 - **Source adapters** for Solana, Base/EVM-style RPCs, and Hyperliquid-style
